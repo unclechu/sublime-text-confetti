@@ -1,0 +1,21 @@
+# Generic Confetti 1.0 syntax
+project "demo" {
+  version 1.2.3
+  sources { init.c fork.c scheduler.c }
+  timeout 3s
+  resolution 1920x1080
+  retries 1_000
+  calculate 2 + 3
+  enabled true
+
+  message """Hello,
+from Confetti!"""
+  escaped foo\#bar
+  quoted "a \"quote\" and # a literal hash sign"
+  continued one \
+    two
+}
+
+step configure; step run
+# Adjacent directives following a closing block
+outer { inner 42 } next value

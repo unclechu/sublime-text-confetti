@@ -1,0 +1,107 @@
+%YAML 1.2
+---
+name: Confetti
+file_extensions:
+  - confetti
+scope: source.confetti
+
+variables:
+  identifier: '[A-Za-z_][A-Za-z0-9_-]*'
+  bare_argument: '(?:\\[^\s]|[^\s"#;{}\\])+'
+  operator: '(?:&&|\|\||==|!=|<=|>=|[=+*/<>-])'
+  number: '[+-]?(?:[0-9][0-9_.]*|\.[0-9][0-9_]*)(?:[eE][+-]?[0-9][0-9_]*)?(?:[A-Za-z][A-Za-z0-9]*)?'
+  argument_end: '(?=$|[\s"#;{}])'
+
+contexts:
+  main:
+    - match: '\}'
+      scope: punctuation.section.block.end.confetti
+    - include: directive
+
+  block:
+    - match: '\}'
+      scope: punctuation.section.block.end.confetti
+      pop: true
+    - include: directive
+
+  directive:
+    - include: comments
+    - match: '\\(?=\r?$)'
+      scope: constant.character.escape.confetti
+      push: continued-line
+    - match: '"""'
+      push:
+        - arguments
+        - triple-string
+    - match: '"'
+      push:
+        - arguments
+        - quoted-string
+    - match: '{{identifier}}{{argument_end}}'
+      scope: entity.name.function.confetti
+      push: arguments
+    - match: '{{operator}}{{argument_end}}'
+      scope: keyword.operator.confetti
+      push: arguments
+    - match: '{{number}}{{argument_end}}'
+      scope: constant.numeric.confetti
+      push: arguments
+    - match: '{{bare_argument}}'
+      push: arguments
+    - match: '\{'
+      scope: punctuation.section.block.begin.confetti
+      push: block
+    - match: ';'
+      scope: punctuation.terminator.confetti
+
+  arguments:
+    - include: comments
+    - match: '\\(?=\r?$)'
+      scope: constant.character.escape.confetti
+      push: continued-line
+    - match: '"""'
+      push: triple-string
+    - match: '"'
+      push: quoted-string
+    - match: '\{'
+      scope: punctuation.section.block.begin.confetti
+      set: block
+    - match: ';'
+      scope: punctuation.terminator.confetti
+      pop: true
+    - match: '(?=\})'
+      pop: true
+    - match: '{{operator}}{{argument_end}}'
+      scope: keyword.operator.confetti
+    - match: '{{number}}{{argument_end}}'
+      scope: constant.numeric.confetti
+    - match: '{{bare_argument}}'
+    - match: '$'
+      pop: true
+
+  comments:
+    - match: '#.*$'
+      scope: comment.line.number-sign.confetti
+
+  quoted-string:
+    - meta_scope: string.quoted.double.confetti
+    - match: '\\(?=\r?$)'
+      scope: constant.character.escape.confetti
+      push: continued-line
+    - match: '\\[^\s]'
+      scope: constant.character.escape.confetti
+    - match: '"'
+      pop: true
+    - match: '$'
+      pop: true
+
+  triple-string:
+    - meta_scope: string.quoted.triple.confetti
+    - match: '\\[^\s]'
+      scope: constant.character.escape.confetti
+    - match: '"""'
+      pop: true
+
+  continued-line:
+    - match: '^'
+      pop: true

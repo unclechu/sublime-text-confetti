@@ -1,0 +1,63 @@
+# SYNTAX TEST "Confetti.sublime-syntax"
+# An ordinary comment
+# ^ comment.line.number-sign.confetti
+
+project "demo" {
+# <- entity.name.function.confetti
+#       ^ string.quoted.double.confetti
+#              ^ punctuation.section.block.begin.confetti
+  version 1.2.3
+# ^^^^^^^ entity.name.function.confetti
+#         ^^^^^ constant.numeric.confetti
+  timeout 3s
+# ^^^^^^^ entity.name.function.confetti
+#         ^^ constant.numeric.confetti
+  foo-bar 1_000 .125 1e-3 1920x1080
+# ^^^^^^^ entity.name.function.confetti
+#         ^^^^^ constant.numeric.confetti
+#               ^^^^ constant.numeric.confetti
+#                    ^^^^ constant.numeric.confetti
+#                         ^^^^^^^^^ constant.numeric.confetti
+  compare 2 && 3 || 4
+# ^^^^^^^ entity.name.function.confetti
+#           ^^ keyword.operator.confetti
+#                ^^ keyword.operator.confetti
+  calculate 2 + 3
+# ^^^^^^^^^ entity.name.function.confetti
+#           ^ constant.numeric.confetti
+#             ^ keyword.operator.confetti
+#               ^ constant.numeric.confetti
+  sources { init.c fork.c }
+# ^^^^^^^ entity.name.function.confetti
+#         ^ punctuation.section.block.begin.confetti
+#           ^ source.confetti - entity.name.function
+#                  ^ source.confetti - entity.name.function
+  message """Hello,
+# ^^^^^^^ entity.name.function.confetti
+#          ^ string.quoted.triple.confetti
+Confetti!"""
+# ^^^^^^^^^ string.quoted.triple.confetti
+  escaped foo\#bar
+# ^^^^^^^ entity.name.function.confetti
+#         ^ source.confetti - comment
+  quoted "a \"quote\" and # not a comment"
+# ^^^^^^ entity.name.function.confetti
+#           ^ constant.character.escape.confetti
+#                           ^ string.quoted.double.confetti - comment
+  continued one \
+    two 3
+#   ^^^ source.confetti - entity.name.function
+#       ^ constant.numeric.confetti
+  wrapped "before \
+continued"
+# ^^^^^^^^^ string.quoted.double.confetti
+}
+# <- punctuation.section.block.end.confetti
+
+step configure; step run
+# <- entity.name.function.confetti
+#               ^ entity.name.function.confetti
+outer { inner 42 } next value
+# <- entity.name.function.confetti
+#       ^ entity.name.function.confetti
+#                  ^ entity.name.function.confetti
