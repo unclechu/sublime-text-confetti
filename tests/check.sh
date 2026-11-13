@@ -24,11 +24,14 @@ trap cleanup EXIT HUP INT TERM
 mkdir -vp -- "$TMP_DIR/syntaxes"
 cp -v -- './Confetti.sublime-syntax' "$TMP_DIR/syntaxes/"
 
+export BAT_CONFIG_DIR="$TMP_DIR"
+export BAT_CACHE_PATH="$TMP_DIR/cache"
+
 (
   set -o xtrace
-  BAT_CONFIG_DIR="$TMP_DIR" "$BAT" cache --build
-  BAT_CONFIG_DIR="$TMP_DIR" "$BAT" --list-languages | grep -iq confetti
-  BAT_CONFIG_DIR="$TMP_DIR" "$BAT" \
+  "$BAT" cache --build
+  "$BAT" --list-languages | grep -iq confetti
+  "$BAT" \
     --language confetti \
     --color always \
     --style plain \

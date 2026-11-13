@@ -8,6 +8,8 @@
 , bat ? pkgs.bat
 
 , inNixShell ? false
+
+, useBatWithConfettiInShell ? false
 }:
 
 let
@@ -18,7 +20,7 @@ let
 
     packages = [
       shellcheck
-      bat
+      (if useBatWithConfettiInShell then bat-with-confetti else bat)
     ];
   };
 
