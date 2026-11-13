@@ -1,7 +1,7 @@
 { pkgs ? import <nixpkgs> {}
 , lib ? pkgs.lib
 , runCommand ? pkgs.runCommand
-, makeWrapper ? pkgs.makeWrapper
+, makeBinaryWrapper ? pkgs.makeBinaryWrapper
 
 , shellcheck ? pkgs.shellcheck
 
@@ -29,7 +29,7 @@ let
     runCommand "bat-with-confetti-${bat.version}" {
       nativeBuildInputs = [
         bat
-        makeWrapper
+        makeBinaryWrapper
       ];
 
       meta = {
