@@ -58,6 +58,13 @@ bat cache --build
 To discard the entire custom cache and return to built-in assets, use
 `bat cache --clear`. This doesn’t remove the custom syntax file itself.
 
+### Test it with Nix
+
+```sh
+nix-build -A bat-with-confetti -o result-bat-with-confetti
+result-bat-with-confetti/bin/bat examples/core.confetti
+```
+
 ## Install for Sublime Text
 
 Put `Confetti.sublime-syntax` in a package directory, for example
